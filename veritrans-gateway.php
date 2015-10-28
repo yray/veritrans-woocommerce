@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Veritrans - WooCommerce Payment Gateway
-Plugin URI: https://github.com/veritrans/veritrans-woocommerce
+Plugin Name: Veritrans with Installment - WooCommerce Payment Gateway
+Plugin URI: https://github.com/yray/veritrans-woocommerce
 Description: Accept all payment directly on your WooCommerce site in a seamless and secure checkout environment with <a href="http://veritrans.co.id" target="_blank">Veritrans.co.id</a>
 Version: 2.0.4
-Author: Veritrans
-Author URI: http://veritrans.co.id
+Author: EYESIMPLE
+Author URI: http://eyesimple.us
 License: GPLv2 or later
 */
 
