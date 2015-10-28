@@ -1,4 +1,4 @@
-Veritrans WooCommerce Payment Gateway
+Veritrans WooCommerce Payment Gateway - With BNI & Mandiri Installment Options
 =====================================
 
 Let your WooCommerce store integrated with Veritrans payment gateway.
