@@ -40,6 +40,11 @@
         $this->enable_3d_secure   = $this->get_option( 'enable_3d_secure' );
         $this->enable_sanitization = $this->get_option( 'enable_sanitization' );
         $this->enable_credit_card = $this->get_option( 'credit_card' );
+        $this->installment_availability = $this->get_option( 'installment_availability' );
+        $this->mandiri_installment_availability = $this->get_option( 'mandiri_installment_availability' );
+        $this->mandiri_installment_terms = explode(',', $this->get_option( 'mandiri_installment_terms' ));
+        $this->bni_installment_availability = $this->get_option( 'bni_installment_availability' );
+        $this->bni_installment_terms = explode(',', $this->get_option( 'bni_installment_terms' ));
         $this->enable_mandiri_clickpay = $this->get_option( 'mandiri_clickpay' );
         $this->enable_cimb_clicks = $this->get_option( 'cimb_clicks' );
         $this->enable_permata_va = $this->get_option( 'bank_transfer' );
@@ -167,6 +172,41 @@
             'description' => sprintf(__('Input your <b>Production</b> Veritrans Server Key. Get the key <a href="%s" target="_blank">here</a>', 'woocommerce' ),$v2_production_key_url),
             'default' => '',
             'class' => 'production_settings sensitive'
+          ),
+          'installment_availability' => array(
+            'title' => __( 'Enable Installment', 'woocommerce' ),
+            'type' => 'checkbox',
+            'label' => __( 'Enable Installment?', 'woocommerce' ),
+            'description' => __( 'Please contact us if you wish to enable this feature in the Production environment.', 'woocommerce' ),
+            'default' => 'no'
+          ),
+          'mandiri_installment_availability' => array(
+            'title' => __( 'Enable Mandiri Installment', 'woocommerce' ),
+            'type' => 'checkbox',
+            'label' => __( 'Enable Mandiri Installment?', 'woocommerce' ),
+            'description' => __( 'Please contact us if you wish to enable this feature in the Production environment.', 'woocommerce' ),
+            'default' => 'no'
+          ),
+          'mandiri_installment_terms' => array(
+            'title' => __( 'Mandiri Installment Terms', 'woocommerce' ),
+            'type' => 'text',
+            'description' => __( 'This controls how many months for installment terms.', 'woocommerce' ),
+            'default' => __( '12', 'woocommerce' ),
+            'desc_tip'      => true,
+          ),
+          'bni_installment_availability' => array(
+            'title' => __( 'Enable BNI Installment', 'woocommerce' ),
+            'type' => 'checkbox',
+            'label' => __( 'Enable BNI Installment?', 'woocommerce' ),
+            'description' => __( 'Please contact us if you wish to enable this feature in the Production environment.', 'woocommerce' ),
+            'default' => 'no'
+          ),
+          'bni_installment_terms' => array(
+            'title' => __( 'BNI Installment Terms', 'woocommerce' ),
+            'type' => 'text',
+            'description' => __( 'This controls how many months for installment terms.', 'woocommerce' ),
+            'default' => __( '12', 'woocommerce' ),
+            'desc_tip'      => true,
           ),
           'credit_card' => array(
             'title' => __( 'Enable credit card', 'woocommerce' ),
@@ -358,6 +398,24 @@
         }
 
         $params['vtweb']['enabled_payments'] = $enabled_payments;
+        $payment_options = array();
+        $installment = array();
+        if ($this->installment_availability =='yes'){
+          $installment['required'] = true;
+          $installment['installment_terms'] = array();
+          
+          if($this->mandiri_installment_availability == 'yes'){
+            $installment['installment_terms']['mandiri'] = $this->mandiri_installment_terms;
+          }
+          
+          if($this->bni_installment_availability == 'yes'){
+            $installment['installment_terms']['bni'] = $this->bni_installment_terms;
+          }
+          
+        }
+        $payment_options = $installment;
+        $params['vtweb']['payment_options'] = $payment_options;
+        $params['vtweb']['payment_options']['installment'] = $installment;
 
         $customer_details = array();
         $customer_details['first_name'] = $order->billing_first_name;
